@@ -29,59 +29,73 @@ class LogInPage extends StatelessWidget {
                       offset: Offset(1.w, 5.h),
                     )
                   ]),
-              child: Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: authController.emailController,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
+              child: SingleChildScrollView(
+                child: Form(
+                  key: authController.loginFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: authController.emailController,
+                        validator: (val){
+                          if(val!.isEmpty){
+                            return 'This is a Required Field';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    TextFormField(
-                      controller: authController.passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Passward',
+                      SizedBox(
+                        height: 30.h,
                       ),
-                    ),
-                    SizedBox(
-                      height: 125.h,
-                    ),
+                      TextFormField(
+                        controller: authController.passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Passward',
+                        ),
+                        validator: (val){
+                          if(val!.isEmpty){
+                            return 'This is a Required Field';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 125.h,
+                      ),
 
-                    ///button login
-                    ///
-                    ///
-                    InkWell(
-                      onTap: () {
-                        authController.logIn();
-                      },
-                      child: logInButton(
-                        titleText: 'Log In',
+                      ///button login
+                      ///
+                      ///
+                      InkWell(
+                        onTap: authController.isButtonVisible ? () => authController.validateLoginForm() : null,
+                        child: logInButton(
+                          titleText: 'Log In',
+                        ),
                       ),
-                    ),
-                    // ElevatedButton(
-                    //   style: ButtonStyle(
-                    //     fixedSize: MaterialStateProperty.all(Size(30.w, 60)),
-                    //     backgroundColor:
-                    //         MaterialStateProperty.all(Colors.green),
-                    //     elevation: MaterialStateProperty.all(4),
-                    //   ),
-                    //   onPressed: () {
-                    //     authController.logIn();
-                    //   },
-                    //   child: Text('Log In'),
-                    // ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Text('Click here to Sign up '),
-                    ),
-                  ],
+                      // ElevatedButton(
+                      //   style: ButtonStyle(
+                      //     fixedSize: MaterialStateProperty.all(Size(30.w, 60)),
+                      //     backgroundColor:
+                      //         MaterialStateProperty.all(Colors.green),
+                      //     elevation: MaterialStateProperty.all(4),
+                      //   ),
+                      //   onPressed: () {
+                      //     authController.logIn();
+                      //   },
+                      //   child: Text('Log In'),
+                      // ),
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        child: Text('Click here to Sign up '),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
