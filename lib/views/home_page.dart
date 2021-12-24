@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:warrior_queen_admin/constants.dart';
+import 'package:warrior_queen_admin/views/category_views/add_category.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,17 +12,42 @@ class HomePage extends StatelessWidget {
       appBar : AppBar(
         backgroundColor: kblack,
         toolbarHeight: 70,
-        title: Row(
-          children: const [
-            Text(
-              'Admin Panel',
-              style: TextStyle(color: Colors.white, fontSize: 18),
+        title: const Center(
+          child: Text(
+            'Admin Panel',
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 50,
+              width: 150,
+              color: Colors.purpleAccent,
+              child: TextButton(
+                onPressed: () {
+                   Get.to(() => AddCategoryPage());
+                },
+                child: const Text("Add Category",style: TextStyle(fontSize: 20,color: Colors.white)),
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Container(
+              height: 50,
+              width: 150,
+              color: Colors.purpleAccent,
+              child: TextButton(
+                onPressed: () {
+                  print("helo");
+                },
+                child: const Text("View Category",style: TextStyle(fontSize: 20,color: Colors.white)),
+              ),
             ),
           ],
         ),
-      ),
-      body: Container(
-        color: Colors.amber,
       ),
     );
   }
