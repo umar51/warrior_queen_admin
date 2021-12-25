@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:warrior_queen_admin/constants.dart';
 import 'package:warrior_queen_admin/views/category_views/add_category.dart';
+import 'package:warrior_queen_admin/views/category_views/view_category.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class HomePage extends StatelessWidget {
               color: Colors.purpleAccent,
               child: TextButton(
                 onPressed: () {
-                  print("helo");
+                  Get.to(() => ViewCategoryPage());
                 },
                 child: const Text("View Category",style: TextStyle(fontSize: 20,color: Colors.white)),
               ),
