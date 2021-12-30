@@ -34,7 +34,6 @@ class AddCategoryPage extends StatelessWidget {
                   SizedBox(
                     width: 250,
                     child: TextFormField(
-                      
                       controller: categoryController.categoryNameController,
                       validator: (val){
                         if(val!.isEmpty){
@@ -45,6 +44,41 @@ class AddCategoryPage extends StatelessWidget {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
                           hintText: 'Category Name'
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20,),
+                  InkWell(
+                    onTap: () {
+                       categoryController.uploadToStorage();
+                    },
+                    child: Container(
+                      color: Colors.black12,
+                      height: 100,
+                      width: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: categoryController.categoryImage ==
+                            null
+                            ? Column(
+                          mainAxisAlignment:
+                          MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.add_a_photo,
+                              size: 30,
+                            ),
+                            SizedBox(height: 10,),
+                            Text("Upload"),
+                          ],
+                        )
+                            : SizedBox(
+                          height: 400,
+                          width: Get.width,
+                          child: Image.network(
+                            categoryController.categoryImage!,
+                          ),
+                        ),
                       ),
                     ),
                   ),

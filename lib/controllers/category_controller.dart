@@ -1,5 +1,9 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:warrior_queen_admin/constants.dart';
@@ -16,16 +20,23 @@ class CategoryController extends GetxController{
   final taskNameController = TextEditingController();
   final DateRangePickerController dateRangePickerController = DateRangePickerController();
   final _catCollectionReference = FirebaseFirestore.instance.collection('category');
+  final storage = FirebaseStorage.instance;
   List<CategoryModel> listOfCategories = [];
   List<TaskModel> listOfTasks = [];
   int selectedCategoryIndex = 0;
+  String? categoryImage;
 
   validateCategoryForm(){
     if(!catFormKey.currentState!.validate()){
       return null;
     }
-    addCategoryModel = CategoryModel(categoryName: categoryNameController.text);
-    addCategory();
+    else if(categoryImage == null){
+      Get.snackbar('Alert', 'Select Image',backgroundColor: Colors.black,colorText: Colors.white);
+    }else {
+      addCategoryModel =
+          CategoryModel(categoryName: categoryNameController.text,categoryImage: categoryImage);
+      addCategory();
+    }
   }
 
   validateTaskForm(){
@@ -96,5 +107,30 @@ class CategoryController extends GetxController{
         update();
       });
   }
+
+  uploadToStorage() {
+    try {
+      var input = FileUploadInputElement()..accept = 'image/*';
+      input.click();
+      input.onChange.listen((event) {
+        var file = input.files!.first;
+        final reader = FileReader();
+        reader.readAsDataUrl(file);
+        reader.onLoadEnd.listen((event) async {
+          var snapshot = await storage
+              .ref()
+              .child('categoryImages/${file.name}')
+              .putBlob(file);
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+          categoryImage = downloadUrl;
+          update();
+        });
+      });
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('Error', e.toString(),backgroundColor: Colors.black,colorText: Colors.white);
+    }
+  }
+
 
 }

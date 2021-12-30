@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CategoryModel{
 
   String? categoryName;
+  String? categoryImage;
   DocumentReference? docRef;
 
-  CategoryModel({this.categoryName,this.docRef});
+  CategoryModel({this.categoryName,this.docRef,this.categoryImage});
 
   factory CategoryModel.fromDocumentSnapshot(DocumentSnapshot doc){
     return CategoryModel(
@@ -17,6 +18,7 @@ class CategoryModel{
   Map<String,dynamic> toMap(){
     return {
       'category' : categoryName,
+      'category_image' : categoryImage,
     };
   }
 }
