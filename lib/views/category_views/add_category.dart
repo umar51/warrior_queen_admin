@@ -50,6 +50,7 @@ class AddCategoryPage extends StatelessWidget {
                   const SizedBox(height: 20,),
                   InkWell(
                     onTap: () {
+                       categoryController.addCategoryImage = true;
                        categoryController.uploadToStorage();
                     },
                     child: Container(

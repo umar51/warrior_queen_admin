@@ -24,7 +24,8 @@ class CategoryController extends GetxController{
   List<CategoryModel> listOfCategories = [];
   List<TaskModel> listOfTasks = [];
   int selectedCategoryIndex = 0;
-  String? categoryImage;
+  String? categoryImage,taskImage;
+  bool addCategoryImage = true;
 
   validateCategoryForm(){
     if(!catFormKey.currentState!.validate()){
@@ -44,10 +45,15 @@ class CategoryController extends GetxController{
       return null;
     }else if(dateRangePickerController.selectedDate == null){
       Get.snackbar('Alert', 'Select Date',backgroundColor: kblack,colorText: kwhite);
-    }else {
+    }else if(taskImage == null){
+      Get.snackbar('Alert', 'Select Image',backgroundColor: kblack,colorText: kwhite);
+    }
+    else {
       addTaskModel = TaskModel(task: taskNameController.text,
           taskDate: dateRangePickerController.selectedDate!
-              .millisecondsSinceEpoch);
+              .millisecondsSinceEpoch,
+        image: taskImage,
+      );
       addTask();
     }
   }
@@ -61,6 +67,7 @@ class CategoryController extends GetxController{
     }catch(e){
       Get.snackbar('Error', e.toString(),backgroundColor: kblack,colorText: kwhite);
     }
+   // taskImage = null;
   }
   addCategory(){
     try {
@@ -71,6 +78,7 @@ class CategoryController extends GetxController{
     }catch(e){
       Get.snackbar('Error', e.toString(),backgroundColor: kblack,colorText: kwhite);
     }
+   // categoryImage = null;
   }
 
   mapSelectedCategory(int index){
@@ -108,7 +116,7 @@ class CategoryController extends GetxController{
       });
   }
 
-  uploadToStorage() {
+    uploadToStorage() async{
     try {
       var input = FileUploadInputElement()..accept = 'image/*';
       input.click();
@@ -121,8 +129,12 @@ class CategoryController extends GetxController{
               .ref()
               .child('categoryImages/${file.name}')
               .putBlob(file);
-          String downloadUrl = await snapshot.ref.getDownloadURL();
-          categoryImage = downloadUrl;
+          String downLodUrl = await snapshot.ref.getDownloadURL();
+          if(addCategoryImage){
+            categoryImage = downLodUrl;
+          }else{
+            taskImage = downLodUrl;
+          }
           update();
         });
       });

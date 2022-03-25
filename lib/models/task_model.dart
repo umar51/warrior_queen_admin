@@ -4,15 +4,17 @@ class TaskModel{
 
   String? task;
   int? taskDate;
+  String? image;
   DocumentReference? docRef;
 
-  TaskModel({this.docRef,this.task,this.taskDate});
+  TaskModel({this.docRef,this.task,this.taskDate,this.image});
 
   factory TaskModel.fromDocumentSnapshot(DocumentSnapshot doc){
     return TaskModel(
       docRef: doc.reference,
       taskDate: doc['task_date'],
       task: doc['task'],
+      image: doc['image'],
     );
   }
 
@@ -20,6 +22,7 @@ class TaskModel{
     return {
       'task': task,
       'task_date': taskDate,
+      'image': image,
     };
   }
 }
