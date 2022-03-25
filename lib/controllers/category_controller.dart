@@ -39,7 +39,7 @@ class CategoryController extends GetxController{
     }
   }
 
-  validateTaskForm(){
+  validateTaskForm() async{
     if(!taskFormKey.currentState!.validate()){
       return null;
     }else if(dateRangePickerController.selectedDate == null){
